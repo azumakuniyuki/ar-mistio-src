@@ -1,0 +1,15 @@
+galaxy_info:
+  author: azumakuniyuki
+  description: Install mist.io community edition on your CentOS 7
+  company: Cubicroot Co. Ltd.
+  issue_tracker_url: https://github.com/azumakuniyuki/ar-mistio-src/issues
+  license: BSD
+  min_ansible_version: 2.0
+
+  platforms:
+  - name: EL
+    versions:
+    - 7
+  galaxy_tags: ['mist.io']
+dependencies: []
+

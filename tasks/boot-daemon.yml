@@ -1,0 +1,21 @@
+#            _     _     _        __          __     ___            _        
+#  _ __ ___ (_)___| |_  (_) ___  / /__ _ __ __\ \   / / |_ __ _ ___| | _____ 
+# | '_ ` _ \| / __| __| | |/ _ \| / __| '__/ __| | / /| __/ _` / __| |/ / __|
+# | | | | | | \__ \ |_ _| | (_) | \__ \ | | (__| |/ / | || (_| \__ \   <\__ \
+# |_| |_| |_|_|___/\__(_)_|\___/| |___/_|  \___| /_/   \__\__,_|___/_|\_\___/
+#                                \_\          /_/                            
+# boot-daemon
+- name: boot-daemon | supervisord should be running
+  register: supervisord_proc
+  changed_when: supervisord_proc.rc > 0
+  failed_when: supervisord_proc.rc == -1 
+  become: false
+  shell: ps axuww | grep {{ mistio.install }}/bin/python | grep supervisord | grep -v grep
+
+- name: boot-daemon | supervisord should be started
+  when: supervisord_proc|changed and mistio.started == true
+  become: false
+  shell: >
+    chdir={{ mistio.install }}
+    ./bin/supervisord
+

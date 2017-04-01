@@ -1,0 +1,72 @@
+#            _     _     _        __          __     ___            _        
+#  _ __ ___ (_)___| |_  (_) ___  / /__ _ __ __\ \   / / |_ __ _ ___| | _____ 
+# | '_ ` _ \| / __| __| | |/ _ \| / __| '__/ __| | / /| __/ _` / __| |/ / __|
+# | | | | | | \__ \ |_ _| | (_) | \__ \ | | (__| |/ / | || (_| \__ \   <\__ \
+# |_| |_| |_|_|___/\__(_)_|\___/| |___/_|  \___| /_/   \__\__,_|___/_|\_\___/
+#                                \_\          /_/                            
+# compile-src
+- block:
+    - name: compile-src | All the daemon should be stopped
+      shell: >
+        test -x {{ mistio.install }}/bin/supervisorctl && ./bin/supervisorctl stop all || true
+
+    - name: compile-src | supervisord should be stopped
+      shell: >
+        kill -9 `ps axu | grep {{ mistio.install }}/bin/python | grep supervisord | grep -v grep | head -1 | awk '{ print $2 }'` || true
+
+    - name: compile-src | {{ mistio.install }} should be removed
+      file: path={{ mistio.install }} state=absent
+  when: mistio.rebuild == true
+
+- name: compile-src | mist.io.git should be cloned
+  become: false
+  git: >
+    repo={{ mistio.repository }}
+    dest={{ mistio.workingdir }}/mist.io
+    update=no
+    version={{ mistio.version }}
+    accept_hostkey=yes
+
+- name: compile-src | mist.io should be compiled(1)
+  become: false
+  register: virtualenv
+  shell: >
+    chdir={{ mistio.install }}
+    creates=bin/python
+    virtualenv --no-site-packages .
+
+- block:
+    - name: compile-src | mist.io should be compiled(1-a)
+      become: false
+      shell: >
+        chdir={{ mistio.install }}
+        ./bin/pip install --upgrade {{ item }}
+      with_items:
+        - pip
+        - setuptools
+
+    - name: compile-src | mist.io should be compiled(1-b)
+      become: false
+      shell: >
+        chdir={{ mistio.install }}
+        ./bin/pip install {{ item }}
+      with_items:
+        - six
+        - packaging
+        - appdirs
+  when: virtualenv|changed
+
+- name: compile-src | mist.io should be compiled(2)
+  become: false
+  shell: >
+    chdir={{ mistio.install }}
+    creates=eggs
+    ./bin/python ./bootstrap.py
+
+- name: compile-src | mist.io should be compiled(3)
+  become: false
+  shell: >
+    chdir={{ mistio.install }}
+    creates=dist
+    ./bin/buildout -v
+

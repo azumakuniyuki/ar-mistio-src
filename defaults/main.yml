@@ -1,0 +1,19 @@
+---
+#            _     _     _        __          __     __  _       __             _ _       
+#  _ __ ___ (_)___| |_  (_) ___  / /__ _ __ __\ \   / /_| | ___ / _| __ _ _   _| | |_ ___ 
+# | '_ ` _ \| / __| __| | |/ _ \| / __| '__/ __| | / / _` |/ _ \ |_ / _` | | | | | __/ __|
+# | | | | | | \__ \ |_ _| | (_) | \__ \ | | (__| |/ / (_| |  __/  _| (_| | |_| | | |_\__ \
+# |_| |_| |_|_|___/\__(_)_|\___/| |___/_|  \___| /_/ \__,_|\___|_|  \__,_|\__,_|_|\__|___/
+#                                \_\          /_/                                         
+# defaults file for ar-mistio-src
+mistio:
+  version: master
+  started: true
+  rebuild: false
+  install: /usr/local/mist.io
+  updateonly: false
+  workingdir: /usr/local
+  repository: https://github.com/mistio/mist.io.git
+  config:
+    address: 127.0.0.1
+    port: 8000

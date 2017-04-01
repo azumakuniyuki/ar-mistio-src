@@ -1,0 +1,43 @@
+#            _     _     _        __          __     ___            _        
+#  _ __ ___ (_)___| |_  (_) ___  / /__ _ __ __\ \   / / |_ __ _ ___| | _____ 
+# | '_ ` _ \| / __| __| | |/ _ \| / __| '__/ __| | / /| __/ _` / __| |/ / __|
+# | | | | | | \__ \ |_ _| | (_) | \__ \ | | (__| |/ / | || (_| \__ \   <\__ \
+# |_| |_| |_|_|___/\__(_)_|\___/| |___/_|  \___| /_/   \__\__,_|___/_|\_\___/
+#                                \_\          /_/                            
+# install-pkg
+- block:
+    - name: install-pkg | RedHat | Required packages should be installed
+      yum:  name={{ item }} state=present
+      with_items:
+        - git
+        - gcc
+        - wget
+        - pcre
+        - pcre-devel
+        - erlang
+        - python-virtualenv
+        - python-devel
+        - python-lxml
+        - python-zc-buildout 
+        - libxml2
+        - libxml2-python
+        - libxml2-devel
+        - libvirt-devel
+        - libvirt-python
+  when: ansible_os_family == "RedHat"
+
+- name: install-pkg | Debian | Required packages should be installed
+  when: ansible_os_family == "Debian"
+  apt:  name={{ item }} state=present
+  with_items:
+    - gcc
+    - python-dev
+    - build-essential
+    - git
+    - erlang
+    - libpcre3-dev
+    - python-lxml
+    - python-virtualenv
+    - libvirt-bin
+    - libvirt-dev
+
