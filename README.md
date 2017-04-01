@@ -9,7 +9,8 @@ No requirements.
 Role Variables
 --------------------------------------------------------------------------------
 The following variables are defined in `defaults/main.yml` file.
-```
+
+```yaml
 mistio:
   version: master
   started: true
