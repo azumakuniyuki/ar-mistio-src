@@ -7,13 +7,14 @@
 #                                \_\          /_/                                         
 # defaults file for ar-mistio-src
 mistio:
-  version: master
-  started: true
+  version: "master"
+  started: "true"
   rebuild: false
-  install: /usr/local/mist.io
+  install: "/usr/local/mist.io"
   updateonly: false
-  workingdir: /usr/local
-  repository: https://github.com/mistio/mist.io.git
+  workingdir: "/usr/local"
+  repository: "https://github.com/mistio/mist.io.git"
   config:
-    address: 127.0.0.1
-    port: 8000
+    address: "127.0.0.1"
+    port: "8000"
+

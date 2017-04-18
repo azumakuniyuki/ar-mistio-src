@@ -8,23 +8,23 @@
 - name: make-config | {{ mistio.install }}/haproxy.conf should be deployed
   notify: Restart HAProxy
   become: false
-  template: >
-    src=usr/local/mist.io/haproxy.conf.j2
-    dest={{ mistio.install }}/haproxy.conf
-    backup=yes
+  template:
+    src:    "usr/local/mist.io/haproxy.conf.j2"
+    dest:   "{{ mistio.install }}/haproxy.conf"
+    backup: "yes"
 
 - name: make-config | XML should be deployed at /usr/lib/firewalld/services
   notify: Reload FirewallD
-  template: >
-    src=usr/lib/firewalld/services/mist-io.xml.j2
-    dest=/usr/lib/firewalld/services/mist-io.xml
-    backup=yes
+  template:
+    src:    "usr/lib/firewalld/services/mist-io.xml.j2"
+    dest:   "/usr/lib/firewalld/services/mist-io.xml"
+    backup: "yes"
 
 - name: make-config | mist-io serivce should be enabled
   notify: Reload FirewallD
-  firewalld: >
-    service=mist-io
-    state=enabled
-    zone=public
-    permanent=true
+  firewalld:
+    service:   "mist-io"
+    state:     "enabled"
+    zone:      "public"
+    permanent: true
 

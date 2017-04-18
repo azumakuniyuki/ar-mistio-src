@@ -15,7 +15,7 @@
 - name: boot-daemon | supervisord should be started
   when: supervisord_proc|changed and mistio.started == true
   become: false
-  shell: >
-    chdir={{ mistio.install }}
-    ./bin/supervisord
+  shell: ./bin/supervisord
+  args:
+    chdir: "{{ mistio.install }}"
 
