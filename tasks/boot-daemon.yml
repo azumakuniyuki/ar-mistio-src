@@ -13,7 +13,7 @@
   shell: ps axuww | grep {{ mistio.install }}/bin/python | grep supervisord | grep -v grep
 
 - name: boot-daemon | supervisord should be started
-  when: supervisord_proc|changed and mistio.started == true
+  when: supervisord_proc is changed and mistio.started == true
   become: false
   shell: ./bin/supervisord
   args:

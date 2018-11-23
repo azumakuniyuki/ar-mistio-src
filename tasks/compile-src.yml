@@ -59,7 +59,7 @@
         - "six"
         - "packaging"
         - "appdirs"
-  when: virtualenv|changed
+  when: virtualenv is changed
 
 - name: compile-src | mist.io should be compiled(2)
   become: false
